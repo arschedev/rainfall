@@ -26,7 +26,7 @@ cd rainfall
 
 ## Building
 #### Dependencies
-- gcc
+- clang
 
 ###### Optional:
 - valgrind

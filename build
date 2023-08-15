@@ -4,7 +4,7 @@ set -e
 name="rainfall"
 src="src/main.c"
 out="bin"
-compiler="gcc"
+compiler="clang"
 lib="src/lib"
 header="lib.h"
 options="-g -lpthread"
@@ -32,7 +32,7 @@ if [ "$1" = "-u" ] || [ "$1" = "-uninstall" ]; then
     exit 0
 fi
 
-# quom
+# join
 if [ "$1" = "-j" ] || [ "$1" = "-join" ]; then
     quom ./$lib/$header ./$lib/single/$header
     echo -e "Successfully joined"

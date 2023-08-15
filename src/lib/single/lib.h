@@ -295,7 +295,7 @@ typedef pthread_t Thread;
 
 Thread renderer_thread;
 
-int createThread(Thread* thread, any(*routine)(any), any arg) {
+void createThread(Thread* thread, any(*routine)(any), any arg) {
     pthread_create(thread, NULL, routine, arg);
 }
 
@@ -381,7 +381,7 @@ Dimensions getScreenDimensions() {
 #include <time.h>
 #include <stdlib.h>
 
-int randomInit() {
+void randomInit() {
     srand(time(NULL));
 }
 

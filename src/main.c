@@ -107,6 +107,8 @@ any init(any arg) {
 
         timeout(speed);
     }
+
+    return NULL;
 }
 
 //
