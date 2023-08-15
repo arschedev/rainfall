@@ -1,0 +1,66 @@
+#!/bin/bash
+set -e
+
+name="rainfall"
+src="src/main.c"
+out="bin"
+compiler="gcc"
+lib="src/lib"
+header="lib.h"
+options="-g -lpthread"
+install="/usr/local/bin"
+help="./build [OPTION]\n\n\t-r, -run\tbuild and run\n\t-V, -valgrind\tbuild and run with valgrind\n\t-i, -install\tinstall\n\t-u, -uninstall\tuninstall\n\t-j, -join\tjoin header files\n\t-c, -cloc\tcount lines of code\n\t-h, -help\thelp"
+
+# help
+if [ "$1" = "-h" ] || [ "$1" = "-help" ]; then
+    echo -e $help
+    exit 0
+fi
+
+# install
+if [ "$1" = "-i" ] || [ "$1" = "-install" ]; then
+    cp ./$out/$name $install
+    echo -e "\nSuccessfully installed"
+    echo -e "$(whereis $name)"
+    exit 0
+fi
+
+# uninstall
+if [ "$1" = "-u" ] || [ "$1" = "-uninstall" ]; then
+    rm $install/$name
+    echo -e "\nSuccessfully uninstalled"
+    exit 0
+fi
+
+# quom
+if [ "$1" = "-j" ] || [ "$1" = "-join" ]; then
+    quom ./$lib/$header ./$lib/single/$header
+    echo -e "Successfully joined"
+    exit 0
+fi
+
+# cloc
+if [ "$1" = "-c" ] || [ "$1" = "-cloc" ]; then
+    cloc ./$src ./$lib/single/$header
+    exit 0
+fi
+
+# build
+$compiler ./$src $options -o ./$out/$name
+
+# run
+if [ "$1" = "-r" ] || [ "$1" = "-run" ]; then
+    ./$out/$name
+    exit
+fi
+
+# valgrind
+if [ "$1" = "-V" ] || [ "$1" = "-valgrind" ]; then
+    valgrind --leak-check=full --track-origins=yes -s ./$out/$name
+    exit
+fi
+
+# help
+if [ -n "$1" ]; then
+    echo -e $help
+fi
